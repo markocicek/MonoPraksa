@@ -1,0 +1,84 @@
+CREATE TABLE Employee(
+Id INT IDENTITY(1,1) PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+);
+
+CREATE TABLE Customer(
+Id INT IDENTITY(1,1) PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+EmployeeId INT,
+CONSTRAINT CustomerFkEmployee FOREIGN KEY(EmployeeId) REFERENCES Employee(id)
+);
+
+CREATE TABLE Company(
+Id INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(100)
+);
+
+CREATE TABLE Address(
+Id INT PRIMARY KEY,
+City VARCHAR(50),
+Street VARCHAR(50),
+Number VARCHAR(5),
+CONSTRAINT AddressFkCompany FOREIGN KEY(Id) REFERENCES Company(Id)
+);
+
+CREATE TABLE CompanyEmployee(
+CompanyId INT,
+EmployeeId INT,
+PRIMARY KEY(CompanyId, EmployeeId),
+CONSTRAINT CompanyFk FOREIGN KEY(CompanyId) REFERENCES Company(Id),
+CONSTRAINT EmployeeFk FOREIGN KEY(EmployeeId) REFERENCES Employee(Id)
+);
+
+INSERT INTO Employee VALUES ('Marko', 'Cicek');
+INSERT INTO Employee VALUES ('Pero', 'Peric');
+INSERT INTO Employee VALUES ('Ivan', 'Ivanic');
+
+SELECT * FROM Employee;
+
+INSERT INTO Customer VALUES ('Marko', 'Maric', 2);
+INSERT INTO Customer VALUES ('Stjepan', 'Stipic', 2);
+INSERT INTO Customer VALUES ('Ante', 'Antic', 1);
+INSERT INTO Customer VALUES ('Ivano', 'Juric', 3);
+
+SELECT * FROM Customer
+ORDER BY Customer.Id ASC
+OFFSET 3 ROWS FETCH NEXT 1 ROWS ONLY;
+
+
+SELECT Customer.Id as ID, Customer.FirstName as 'First name', Customer.LastName as 'Last name', Employee.LastName as 'Employee'
+FROM Customer, Employee
+WHERE Customer.EmployeeId = Employee.Id
+ORDER BY Employee.LastName ASC
+
+
+INSERT INTO Company VALUES ('FirmaJedan');
+INSERT INTO Company VALUES ('FirmaDva');
+INSERT INTO Company VALUES ('FirmaTri');
+
+INSERT INTO CompanyEmployee VALUES (1, 1);
+INSERT INTO CompanyEmployee VALUES (2, 1);
+INSERT INTO CompanyEmployee VALUES (3, 2);
+INSERT INTO CompanyEmployee VALUES (2, 3);
+
+SELECT Company.Name as 'Company', Employee.FirstName as 'First name', Employee.LastName as 'Last name'
+FROM Company, Employee, CompanyEmployee
+WHERE CompanyEmployee.CompanyId = Company.Id AND CompanyEmployee.EmployeeId = Employee.Id;
+
+INSERT INTO Address VALUES (1, 'Osijek', 'Gacka', 1);
+INSERT INTO Address VALUES (2, 'Osijek', 'Vukovarska', 23);
+INSERT INTO Address VALUES (3, 'Osijek', 'Vinkovacka', 48);
+
+SELECT Company.Name as 'Company', Address.City, Address.Street, Address.Number
+FROM Address
+LEFT JOIN Company ON Address.id = Company.Id;
+
+DELETE Employee FROM Employee
+WHERE Employee.Id = 3;
+
+UPDATE Company
+SET Company.Name = 'FirmaCetiri'
+WHERE Company.Name = 'FirmaTri';
