@@ -1,0 +1,92 @@
+CREATE TABLE Employee(
+Id UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+);
+
+CREATE TABLE Customer(
+Id UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+EmployeeId UNIQUEIDENTIFIER,
+CONSTRAINT CustomerFkEmployee FOREIGN KEY(EmployeeId) REFERENCES Employee(id)
+);
+
+CREATE TABLE Company(
+Id UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
+Name VARCHAR(100)
+);
+
+CREATE TABLE Address(
+Id UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
+City VARCHAR(50),
+Street VARCHAR(50),
+Number VARCHAR(5),
+CONSTRAINT AddressFkCompany FOREIGN KEY(Id) REFERENCES Company(Id)
+);
+
+CREATE TABLE CompanyEmployee(
+CompanyId UNIQUEIDENTIFIER,
+EmployeeId UNIQUEIDENTIFIER,
+PRIMARY KEY(CompanyId, EmployeeId),
+CONSTRAINT CompanyFk FOREIGN KEY(CompanyId) REFERENCES Company(Id),
+CONSTRAINT EmployeeFk FOREIGN KEY(EmployeeId) REFERENCES Employee(Id)
+);
+
+INSERT INTO Employee VALUES (default, 'Marko', 'Cicek');
+INSERT INTO Employee VALUES (default, 'Pero', 'Peric');
+INSERT INTO Employee VALUES (default, 'Ivan', 'Ivanic');
+
+SELECT * FROM Employee;
+SELECT * FROM Employee WHERE Id = 1;
+
+INSERT INTO Customer VALUES (default, 'Marko', 'Maric', '84A3C0BD-D6E1-4720-9EFA-58C774D7E39A');
+INSERT INTO Customer VALUES (default, 'Stjepan', 'Stipic', '84A3C0BD-D6E1-4720-9EFA-58C774D7E39A');
+INSERT INTO Customer VALUES (default, 'Ante', 'Antic', '03ED6349-0619-4D4D-90BB-942A92BEF7C0');
+INSERT INTO Customer VALUES (default, 'Ivano', 'Juric', '2FEF419D-4EA2-43DB-BB61-A4109636EE12');
+
+SELECT * FROM Customer
+ORDER BY Customer.Id ASC
+OFFSET 3 ROWS FETCH NEXT 1 ROWS ONLY;
+
+
+SELECT Customer.Id as ID, Customer.FirstName as 'First name', Customer.LastName as 'Last name', Employee.LastName as 'Employee'
+FROM Customer, Employee
+WHERE Customer.EmployeeId = Employee.Id
+ORDER BY Employee.LastName ASC
+
+
+INSERT INTO Company VALUES (default, 'FirmaJedan');
+INSERT INTO Company VALUES (default, 'FirmaDva');
+INSERT INTO Company VALUES (default, 'FirmaTri');
+
+INSERT INTO CompanyEmployee VALUES ((SELECT Id FROM Company WHERE Name = 'FirmaJedan'), '03ED6349-0619-4D4D-90BB-942A92BEF7C0');
+INSERT INTO CompanyEmployee VALUES ((SELECT Id FROM Company WHERE Name = 'FirmaDva'), '03ED6349-0619-4D4D-90BB-942A92BEF7C0');
+INSERT INTO CompanyEmployee VALUES ((SELECT Id FROM Company WHERE Name = 'FirmaTri'), '84A3C0BD-D6E1-4720-9EFA-58C774D7E39A');
+INSERT INTO CompanyEmployee VALUES ((SELECT Id FROM Company WHERE Name = 'FirmaDva'), '2FEF419D-4EA2-43DB-BB61-A4109636EE12');
+
+SELECT Company.Name as 'Company', Employee.FirstName as 'First name', Employee.LastName as 'Last name'
+FROM Company, Employee, CompanyEmployee
+WHERE CompanyEmployee.CompanyId = Company.Id AND CompanyEmployee.EmployeeId = Employee.Id
+ORDER BY Employee.LastName;
+
+INSERT INTO Address VALUES ((SELECT Id FROM Company WHERE Name = 'FirmaJedan'), 'Osijek', 'Gacka', 1);
+INSERT INTO Address VALUES ((SELECT Id FROM Company WHERE Name = 'FirmaDva'), 'Osijek', 'Vukovarska', 23);
+INSERT INTO Address VALUES ((SELECT Id FROM Company WHERE Name = 'FirmaTri'), 'Osijek', 'Vinkovacka', 48);
+
+SELECT Company.Name as 'Company', Address.City, Address.Street, Address.Number
+FROM Address
+LEFT JOIN Company ON Address.id = Company.Id;
+
+DELETE Customer FROM Customer
+WHERE Customer.Id = (SELECT Customer.Id WHERE Customer.FirstName = 'Marko' AND Customer.LastName = 'Cicek');
+
+UPDATE Company
+SET Company.Name = 'FirmaCetiri'
+WHERE Company.Name = 'FirmaTri';
+
+SELECT * FROM Employee WHERE id = '84a3c0bd-d6e1-4720-9efa-58c774d7e39a';
+
+SELECT Employee.Id, Employee.FirstName, Employee.LastName, Customer.Id, Customer.FirstName, Customer.LastName, Customer.EmployeeId
+FROM Employee JOIN Customer ON Employee.Id = Customer.EmployeeId
+WHERE Employee.Id = '84A3C0BD-D6E1-4720-9EFA-58C774D7E39A';
