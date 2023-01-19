@@ -76,8 +76,8 @@ SELECT Company.Name as 'Company', Address.City, Address.Street, Address.Number
 FROM Address
 LEFT JOIN Company ON Address.id = Company.Id;
 
-DELETE Employee FROM Employee
-WHERE Employee.Id = 3;
+DELETE Customer FROM Customer
+WHERE Customer.Id = 4;
 
 UPDATE Company
 SET Company.Name = 'FirmaCetiri'
