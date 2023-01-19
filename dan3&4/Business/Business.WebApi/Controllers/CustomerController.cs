@@ -31,6 +31,7 @@ namespace Business.WebApi.Controllers
                     {
                         customers.Add(new Customer(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), reader.GetGuid(3)));
                     }
+                    reader.Close();
                     connection.Close();
                     return Request.CreateResponse<List<Customer>>(HttpStatusCode.OK, customers);
                 }
@@ -57,6 +58,7 @@ namespace Business.WebApi.Controllers
                 {
                     reader.Read();
                     localCustomer = new Customer(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), reader.GetGuid(3));
+                    reader.Close();
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, localCustomer);
                 }
@@ -83,6 +85,7 @@ namespace Business.WebApi.Controllers
                 SqlDataReader reader = command.ExecuteReader();
 
                 reader.Read();
+                reader.Close();
                 connection.Close();
             }
             return Request.CreateResponse(HttpStatusCode.OK);
@@ -108,6 +111,7 @@ namespace Business.WebApi.Controllers
                     reader.Close();
                     reader = command.ExecuteReader();
                     reader.Read();
+                    reader.Close();
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, "Update successful");
                 }
@@ -134,6 +138,7 @@ namespace Business.WebApi.Controllers
                     reader.Close();
                     reader = command.ExecuteReader();
                     reader.Read();
+                    reader.Close();
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, "Delete successful");
                 }
