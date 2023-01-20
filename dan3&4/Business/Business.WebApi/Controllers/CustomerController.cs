@@ -38,7 +38,7 @@ namespace Business.WebApi.Controllers
                 else
                 {
                     connection.Close();
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "List is empty!");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "There are no customers!");
                 }
             }
         }
@@ -49,7 +49,7 @@ namespace Business.WebApi.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 Customer localCustomer;
-                SqlCommand command = new SqlCommand("SELECT * FROM Employee WHERE Id = '" + id + "';", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM Customer WHERE Id = '" + id + "';", connection);
                 connection.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -65,7 +65,7 @@ namespace Business.WebApi.Controllers
                 else
                 {
                     connection.Close();
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "There is no employee with that id");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "There is no customer with that id");
                 }
             }
         }
@@ -118,7 +118,7 @@ namespace Business.WebApi.Controllers
                 else
                 {
                     connection.Close();
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "There is no employee with that id");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "There is no customer with that id");
                 }
             }
         }

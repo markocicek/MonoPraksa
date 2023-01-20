@@ -22,8 +22,8 @@ namespace Business.WebApi.Controllers
             {
                 SqlCommand command = new SqlCommand("SELECT Employee.Id, Employee.FirstName, Employee.LastName," +
                     " Customer.Id, Customer.FirstName, Customer.LastName, Customer.EmployeeId FROM Employee" +
-                    " JOIN Customer ON Employee.Id = Customer.EmployeeId;", connection);
-               
+                    " LEFT JOIN Customer ON Employee.Id = Customer.EmployeeId;", connection);
+
                 connection.Open();
                 List<Employee> employees = new List<Employee>();
                 SqlDataReader reader = command.ExecuteReader();
@@ -37,7 +37,10 @@ namespace Business.WebApi.Controllers
                         {
                             employees.Add(new Employee(reader.GetGuid(0), reader.GetString(1), reader.GetString(2)));
                         }
-                        employees.Find(employee => employee.Id == reader.GetGuid(6)).AddCustomer(new Customer(reader.GetGuid(3), reader.GetString(4), reader.GetString(5), reader.GetGuid(6)));
+                        if (!reader.IsDBNull(3))
+                        {
+                            employees.Find(employee => employee.Id == reader.GetGuid(6)).AddCustomer(new Customer(reader.GetGuid(3), reader.GetString(4), reader.GetString(5), reader.GetGuid(6)));
+                        }
                     }
                     reader.Close();
                     connection.Close();
@@ -86,7 +89,7 @@ namespace Business.WebApi.Controllers
             {
                 SqlCommand command = new SqlCommand("SELECT Employee.Id, Employee.FirstName, Employee.LastName," +
                     " Customer.Id, Customer.FirstName, Customer.LastName, Customer.EmployeeId FROM Employee" +
-                    " JOIN Customer ON Employee.Id = Customer.EmployeeId WHERE Employee.Id = '"+id+"';", connection);
+                    " JOIN Customer ON Employee.Id = Customer.EmployeeId WHERE Employee.Id = '" + id + "';", connection);
 
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
