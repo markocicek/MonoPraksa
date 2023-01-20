@@ -17,9 +17,13 @@ namespace Business.WebApi.Controllers
 
         [HttpGet]
         [Route("api/customer/all")]
-        public IEnumerable<Customer> ListCustomers()
+        public HttpResponseMessage ListCustomers()
         {
-            return customers;
+            if(customers == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "There are no customers!");
+            }
+            return Request.CreateResponse<List<Customer>>(HttpStatusCode.OK, customers);
         }
         [HttpGet]
         public HttpResponseMessage Find(int id)
