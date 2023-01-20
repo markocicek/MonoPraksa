@@ -1,0 +1,6 @@
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Model\bin\Debug\Business.Model.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Model\bin\Debug\Business.Model.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Model\obj\Debug\Business.Model.csproj.AssemblyReference.cache
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Model\obj\Debug\Business.Model.csproj.CoreCompileInputs.cache
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Model\obj\Debug\Business.Model.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Model\obj\Debug\Business.Model.pdb
