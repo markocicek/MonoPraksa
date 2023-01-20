@@ -28,20 +28,20 @@ namespace ConsoleApp
         {
             Console.WriteLine("Writes stuff");
         }
-        public void AddCustomer(string firstName, string lastName)
+        public void AddCustomer(Customer customer)
         {
-            customers.Add(new Customer(firstName, lastName));
+            customers.Add(new Customer(customer.FirstName, customer.LastName));
         }
-        public void RemoveCustomer(string firstName, string lastName)
+        public void RemoveCustomer(Customer customer)
         {
-            var foundCustomer = FindCustomer(firstName, lastName);
+            var foundCustomer = FindCustomer(customer);
             if (foundCustomer != null) {
                 customers.RemoveAt(customers.IndexOf(foundCustomer));
-                Console.WriteLine("Customer " + firstName + " " + lastName + " has been removed.");
+                Console.WriteLine("Customer " + customer.FirstName + " " + customer.LastName + " has been removed.");
             }
             else
             {
-                Console.WriteLine("Customer "+firstName+" "+lastName+" meant for removal has not been found");
+                Console.WriteLine("Customer "+customer.FirstName+" "+customer.LastName+" meant for removal has not been found");
             }
         }
         public void ListCustomers()
@@ -53,21 +53,22 @@ namespace ConsoleApp
             }
         }
 
-        public void Search(string firstName, string lastName)
+        public void Search(Customer customer)
         {
-            var foundCustomer = FindCustomer(firstName, lastName);
+            var foundCustomer = FindCustomer(customer);
             if(foundCustomer != null)
             {
                 Console.WriteLine("Customer "+foundCustomer.FirstName +" "+foundCustomer.LastName+" has been found.");
             }
             else
             {
-                Console.WriteLine("Customer "+firstName+" "+lastName+"has not been found.");
+                Console.WriteLine("Customer "+customer.FirstName+" "+customer.LastName+" has not been found.");
             }
         }
-        private Customer FindCustomer(string firstName, string lastName)
+        private Customer FindCustomer(Customer customer)
         {
-            var foundCustomer = customers.SingleOrDefault(customer => customer.FirstName == firstName && customer.LastName == lastName);
+            StringComparer ordICCmp = StringComparer.OrdinalIgnoreCase;
+            var foundCustomer = customers.Find(customerFind => customerFind.FirstName.ToLower() == customer.FirstName.ToLower() && customerFind.FirstName.ToLower() == customer.FirstName.ToLower());
             return foundCustomer;
         }
     }

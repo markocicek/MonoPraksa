@@ -5,30 +5,31 @@
         static void Main(string[] args)
         {
             Secretary secretary = new Secretary("Marko", "Cicek");
+            Program checker = new Program();
 
             Console.WriteLine("Work:");
             secretary.Work();
             Console.WriteLine();
 
-            secretary.AddCustomer("Mirko", "Mirkovic");
-            secretary.AddCustomer("Mario", "Maric");
-            secretary.AddCustomer("Matej", "Matic");
-            secretary.AddCustomer("Luka", "Lukic");
+            secretary.AddCustomer(new Customer("Mirko", "Mirkovic"));
+            secretary.AddCustomer(new Customer("Mario", "Maric"));
+            secretary.AddCustomer(new Customer("Matej", "Matic"));
+            secretary.AddCustomer(new Customer("Luka", "Lukic"));
 
             string input="";
             String[] inputLine = new String[] {};
             Console.WriteLine("For the list of commands use 'help'");
             while (input != "exit")
             {
-                Console.Write("Add query: ");
+                Console.Write("Query: ");
                 input = Console.ReadLine();
                 inputLine = input.Split(" ");
 
                 switch(inputLine[0]) {
                     case "add":
-                        if (inputLine.Count()==3)
+                        if (checker.CheckInput(inputLine.Count()))
                         {
-                            secretary.AddCustomer(inputLine[1], inputLine[2]);
+                            secretary.AddCustomer(new Customer(inputLine[1], inputLine[2]));
                         }
                         else
                         {
@@ -36,9 +37,9 @@
                         }
                         break;
                     case "remove":
-                        if (inputLine.Count()==3)
+                        if (checker.CheckInput(inputLine.Count()))
                         {
-                            secretary.RemoveCustomer(inputLine[1], inputLine[2]);
+                            secretary.RemoveCustomer(new Customer(inputLine[1], inputLine[2]));
                         }
                         else
                         {
@@ -46,9 +47,9 @@
                         }
                         break;
                     case "search":
-                        if (inputLine.Count()==3)
+                        if (checker.CheckInput(inputLine.Count()))
                         {
-                            secretary.Search(inputLine[1], inputLine[2]);
+                            secretary.Search(new Customer(inputLine[1], inputLine[2]));
                         }
                         else
                         {
@@ -72,7 +73,14 @@
                 }
                 Console.WriteLine();
             }
-
+        }
+        public bool CheckInput(int inputLine)
+        {
+            if (inputLine == 3)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
