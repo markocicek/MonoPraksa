@@ -11,3 +11,7 @@ C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Service\obj\Debug\Business.Service.csproj.CopyComplete
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Service\obj\Debug\Business.Service.dll
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Service\obj\Debug\Business.Service.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Service\bin\Debug\Business.Model.Common.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Service\bin\Debug\Business.Repository.Common.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Service\bin\Debug\Business.Model.Common.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Service\bin\Debug\Business.Repository.Common.pdb

@@ -1,4 +1,5 @@
 ﻿using Business.Model;
+using Business.Repository.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Business.Repository
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private string connectionString = "Data Source=localhost;Database=Business;trusted_connection=true;";
 
@@ -52,12 +53,14 @@ namespace Business.Repository
         }
         public Employee FindEmployee(Guid id)
         {
+            string commandText = "SELECT * FROM Employee WHERE Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 Employee localEmployee;
-                SqlCommand command = new SqlCommand("SELECT * FROM Employee WHERE Id = '" + id + "';", connection);
-                connection.Open();
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@Id", id);
 
+                connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.HasRows)
@@ -78,11 +81,13 @@ namespace Business.Repository
         }
         public Employee GetAllCustomersFromEmployee(Guid id)
         {
+            string commandText = "SELECT Employee.Id, Employee.FirstName, Employee.LastName, " +
+                "Customer.Id, Customer.FirstName, Customer.LastName, Customer.EmployeeId FROM Employee " +
+                "JOIN Customer ON Employee.Id = Customer.EmployeeId WHERE Employee.Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("SELECT Employee.Id, Employee.FirstName, Employee.LastName," +
-                    " Customer.Id, Customer.FirstName, Customer.LastName, Customer.EmployeeId FROM Employee" +
-                    " JOIN Customer ON Employee.Id = Customer.EmployeeId WHERE Employee.Id = '" + id + "';", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -110,34 +115,37 @@ namespace Business.Repository
         }
         public void AddEmployee(Employee employee)
         {
+            string commandText = "INSERT INTO Employee VALUES (default, @FirstName, @LastName);";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Employee VALUES (default, '" + employee.FirstName + "', '" + employee.LastName + "');", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@FirstName", employee.FirstName);
+                command.Parameters.AddWithValue("@LastName", employee.LastName);
+
                 connection.Open();
-
-                SqlDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-                reader.Close();
+                command.ExecuteNonQuery();
                 connection.Close();
             }
         }
         public bool UpdateEmployee(Guid id, Employee updatedEmployee)
         {
+            string commandText = "UPDATE Employee SET FirstName = @FirstName, LastName = @LastName WHERE Id = @Id;";
+            string checkText = "SELECT * FROM Employee WHERE Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("UPDATE Employee SET FirstName = '" + updatedEmployee.FirstName +
-                    "', LastName = '" + updatedEmployee.LastName + "' WHERE Id = '" + id + "';", connection);
-                SqlCommand check = new SqlCommand("SELECT * FROM Employee WHERE Id = '" + id + "';", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand check = new SqlCommand(checkText, connection);
+                command.Parameters.AddWithValue("@FirstName", updatedEmployee.FirstName);
+                command.Parameters.AddWithValue("@LastName", updatedEmployee.LastName);
+                command.Parameters.AddWithValue("@Id", id);
+                check.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
                 SqlDataReader reader = check.ExecuteReader();
                 if (reader.HasRows)
                 {
                     reader.Close();
-                    reader = command.ExecuteReader();
-                    reader.Read();
-                    reader.Close();
+                    command.ExecuteNonQuery();
                     connection.Close();
                     return true;
                 }
@@ -150,19 +158,20 @@ namespace Business.Repository
         }
         public bool DeleteEmployee(Guid id)
         {
+            string commandText = "DELETE Employee WHERE Id = @Id;";
+            string checkText = "SELECT * FROM Employee WHERE Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("DELETE Employee WHERE Id = '" + id + "' ; ", connection);
-                SqlCommand check = new SqlCommand("SELECT * FROM Employee WHERE Id = '" + id + "' ; ", connection);
-
+                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand check = new SqlCommand(checkText, connection);
+                command.Parameters.AddWithValue("@Id", id);
+                check.Parameters.AddWithValue("@Id", id);
                 connection.Open();
                 SqlDataReader reader = check.ExecuteReader();
                 if (reader.HasRows)
                 {
                     reader.Close();
-                    reader = command.ExecuteReader();
-                    reader.Read();
-                    reader.Close();
+                    command.ExecuteNonQuery();
                     connection.Close();
                     return true;
                 }

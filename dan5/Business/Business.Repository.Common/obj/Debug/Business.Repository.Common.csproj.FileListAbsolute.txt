@@ -1,0 +1,11 @@
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\bin\Debug\Business.Repository.Common.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\bin\Debug\Business.Repository.Common.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\bin\Debug\Business.Model.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\bin\Debug\Business.Model.Common.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\bin\Debug\Business.Model.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\bin\Debug\Business.Model.Common.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\obj\Debug\Business.Repository.Common.csproj.AssemblyReference.cache
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\obj\Debug\Business.Repository.Common.csproj.CoreCompileInputs.cache
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\obj\Debug\Business.Repository.Common.csproj.CopyComplete
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\obj\Debug\Business.Repository.Common.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.Repository.Common\obj\Debug\Business.Repository.Common.pdb

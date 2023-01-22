@@ -261,3 +261,7 @@ C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.WebApi\bin\Business.Service.pdb
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.WebApi\bin\Business.Service.Common.pdb
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.WebApi\bin\Business.Repository.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.WebApi\bin\Business.Model.Common.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.WebApi\bin\Business.Repository.Common.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.WebApi\bin\Business.Model.Common.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan5\Business\Business.WebApi\bin\Business.Repository.Common.pdb

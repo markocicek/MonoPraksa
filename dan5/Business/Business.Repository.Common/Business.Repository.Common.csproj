@@ -45,5 +45,11 @@
     <Compile Include="IEmployeeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Business.Model\Business.Model.csproj">
+      <Project>{30E52E90-2ED9-4F93-A9F2-81085B736AA7}</Project>
+      <Name>Business.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

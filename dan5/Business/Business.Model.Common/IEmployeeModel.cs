@@ -8,5 +8,8 @@ namespace Business.Model.Common
 {
     public interface IEmployeeModel
     {
+        string FirstName { get; set; }
+        string LastName { get; set; }
+        Guid Id { get; set; }
     }
 }
