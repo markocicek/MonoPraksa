@@ -108,8 +108,8 @@ namespace Business.WebApi.Controllers
                 SqlCommand check = new SqlCommand(checkText, connection);
                 command.Parameters.AddWithValue("@FirstName", updatedCustomer.FirstName);
                 command.Parameters.AddWithValue("@LastName", updatedCustomer.LastName);
-                command.Parameters.AddWithValue("@Id", updatedCustomer.Id);
-                check.Parameters.AddWithValue("@Id", updatedCustomer.Id);
+                command.Parameters.AddWithValue("@Id", id);
+                check.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
                 SqlDataReader reader = check.ExecuteReader();

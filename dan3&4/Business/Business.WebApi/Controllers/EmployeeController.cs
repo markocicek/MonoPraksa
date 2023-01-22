@@ -137,7 +137,6 @@ namespace Business.WebApi.Controllers
                 SqlCommand command = new SqlCommand(commandText, connection);
                 command.Parameters.AddWithValue("@FirstName", employee.FirstName);
                 command.Parameters.AddWithValue("@LastName", employee.LastName);
-                Console.WriteLine("{0}", employee.LastName);
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
