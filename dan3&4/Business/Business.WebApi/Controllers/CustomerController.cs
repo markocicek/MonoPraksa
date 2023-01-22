@@ -45,11 +45,13 @@ namespace Business.WebApi.Controllers
         [HttpGet]
         public HttpResponseMessage Find(Guid id)
         {
+            string commandText = "SELECT * FROM Customer WHERE Id = @Id;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 Customer localCustomer;
-                SqlCommand command = new SqlCommand("SELECT * FROM Customer WHERE Id = '" + id + "';", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@Id", id);
                 connection.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -72,20 +74,20 @@ namespace Business.WebApi.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody] Customer customer)
         {
-            if (customer.FirstName == null || customer.LastName == null)
+            string commandText = "INSERT INTO Customer VALUES (default, @FirstName, @LastName, @EmployeeId);";
+            if (customer.FirstName == null || customer.LastName == null || customer.EmployeeId == null)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Check first and last name");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "First name, last name and/or employeeid missing");
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Customer VALUES (default, '" + customer.FirstName +
-                    "', '" + customer.LastName + "', '"+customer.EmployeeId+"');", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                command.Parameters.AddWithValue("@LastName", customer.LastName);
+                command.Parameters.AddWithValue("@EmployeeId", customer.EmployeeId);
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-                reader.Close();
+                command.ExecuteNonQuery();
                 connection.Close();
             }
             return Request.CreateResponse(HttpStatusCode.OK);
@@ -94,24 +96,27 @@ namespace Business.WebApi.Controllers
         [HttpPut]
         public HttpResponseMessage Update(Guid id, [FromBody] Customer updatedCustomer)
         {
+            string commandText = "UPDATE Customer SET FirstName = @FirstName, LastName = @LastName WHERE Id = @Id;";
+            string checkText = "SELECT * FROM Customer WHERE Id = @Id;";
             if (updatedCustomer.FirstName == null || updatedCustomer.LastName == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Check first and last name");
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("UPDATE Customer SET FirstName = '" + updatedCustomer.FirstName +
-                    "', LastName = '" + updatedCustomer.LastName + "' WHERE Id = '" + id + "';", connection);
-                SqlCommand check = new SqlCommand("SELECT * FROM Customer WHERE Id = '" + id + "';", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand check = new SqlCommand(checkText, connection);
+                command.Parameters.AddWithValue("@FirstName", updatedCustomer.FirstName);
+                command.Parameters.AddWithValue("@LastName", updatedCustomer.LastName);
+                command.Parameters.AddWithValue("@Id", updatedCustomer.Id);
+                check.Parameters.AddWithValue("@Id", updatedCustomer.Id);
 
                 connection.Open();
                 SqlDataReader reader = check.ExecuteReader();
                 if (reader.HasRows)
                 {
                     reader.Close();
-                    reader = command.ExecuteReader();
-                    reader.Read();
-                    reader.Close();
+                    command.ExecuteNonQuery();
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, "Update successful");
                 }
@@ -126,19 +131,20 @@ namespace Business.WebApi.Controllers
         [HttpDelete]
         public HttpResponseMessage Delete(Guid id)
         {
+            string commandText = "DELETE Customer WHERE Id = @Id;";
+            string checkText = "SELECT * FROM Customer WHERE Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("DELETE Customer WHERE Id = '" + id + "' ; ", connection);
-                SqlCommand check = new SqlCommand("SELECT * FROM Customer WHERE Id = '" + id + "' ; ", connection);
-
+                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand check = new SqlCommand(checkText, connection);
+                command.Parameters.AddWithValue("@Id", id);
+                check.Parameters.AddWithValue("@Id", id);
                 connection.Open();
                 SqlDataReader reader = check.ExecuteReader();
                 if (reader.HasRows)
                 {
                     reader.Close();
-                    reader = command.ExecuteReader();
-                    reader.Read();
-                    reader.Close();
+                    command.ExecuteNonQuery();
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, "Delete successful");
                 }

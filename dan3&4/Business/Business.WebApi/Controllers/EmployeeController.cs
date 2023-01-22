@@ -7,7 +7,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
+using System.Data;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Business.WebApi.Controllers
 {
@@ -56,11 +58,14 @@ namespace Business.WebApi.Controllers
         [HttpGet]
         public HttpResponseMessage Find(Guid id)
         {
+            string commandText = "SELECT * FROM Employee WHERE Id = @Id;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 Employee localEmployee;
-                SqlCommand command = new SqlCommand("SELECT * FROM Employee WHERE Id = '"+id+"';", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@Id", id);
+
                 connection.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -70,7 +75,6 @@ namespace Business.WebApi.Controllers
                     reader.Read();
                     localEmployee = new Employee(reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
                     reader.Close();
-
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, localEmployee);
                 }
@@ -85,11 +89,14 @@ namespace Business.WebApi.Controllers
         [Route("api/employee/customers")]
         public HttpResponseMessage GetAllCustomersFromEmployee(Guid id)
         {
+            string commandText = "SELECT Employee.Id, Employee.FirstName, Employee.LastName, " +
+                "Customer.Id, Customer.FirstName, Customer.LastName, Customer.EmployeeId FROM Employee " +
+                "JOIN Customer ON Employee.Id = Customer.EmployeeId WHERE Employee.Id = @Id;";
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("SELECT Employee.Id, Employee.FirstName, Employee.LastName," +
-                    " Customer.Id, Customer.FirstName, Customer.LastName, Customer.EmployeeId FROM Employee" +
-                    " JOIN Customer ON Employee.Id = Customer.EmployeeId WHERE Employee.Id = '" + id + "';", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -119,19 +126,20 @@ namespace Business.WebApi.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody] Employee employee)
         {
+
             if (employee.FirstName == null || employee.LastName == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Check first and last name");
             }
+            string commandText = "INSERT INTO Employee VALUES (default, @FirstName, @LastName);";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Employee VALUES (default, '"+employee.FirstName+"', '"+employee.LastName+"');", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@FirstName", employee.FirstName);
+                command.Parameters.AddWithValue("@LastName", employee.LastName);
+                Console.WriteLine("{0}", employee.LastName);
                 connection.Open();
-
-                SqlDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-                reader.Close();
+                command.ExecuteNonQuery();
                 connection.Close();
             }
             return Request.CreateResponse(HttpStatusCode.OK);
@@ -144,20 +152,25 @@ namespace Business.WebApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Check first and last name");
             }
+            string commandText = "UPDATE Employee SET FirstName = @FirstName, LastName = @LastName WHERE Id = @Id;";
+            string checkText = "SELECT * FROM Employee WHERE Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("UPDATE Employee SET FirstName = '"+updatedEmployee.FirstName+
-                    "', LastName = '"+updatedEmployee.LastName+"' WHERE Id = '"+id+"';", connection);
-                SqlCommand check = new SqlCommand("SELECT * FROM Employee WHERE Id = '" + id + "';", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand check = new SqlCommand(checkText, connection);
+
+                command.Parameters.AddWithValue("@FirstName", updatedEmployee.FirstName);
+                command.Parameters.AddWithValue("@LastName", updatedEmployee.LastName);
+                command.Parameters.AddWithValue("@Id", id);
+
+                check.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
                 SqlDataReader reader = check.ExecuteReader();
                 if (reader.HasRows)
                 {
                     reader.Close();
-                    reader = command.ExecuteReader();
-                    reader.Read();
-                    reader.Close();
+                    command.ExecuteNonQuery();
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, "Update successful");
                 }
@@ -172,19 +185,22 @@ namespace Business.WebApi.Controllers
         [HttpDelete]
         public HttpResponseMessage Delete(Guid id)
         {
+            string commandText = "DELETE Employee WHERE Id = @Id;";
+            string checkText = "SELECT * FROM Employee WHERE Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("DELETE Employee WHERE Id = '" + id + "' ; ", connection);
-                SqlCommand check = new SqlCommand("SELECT * FROM Employee WHERE Id = '" + id + "' ; ", connection);
+                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand check = new SqlCommand(checkText, connection);
+
+                command.Parameters.AddWithValue("@Id", id);
+                check.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
                 SqlDataReader reader = check.ExecuteReader();
                 if (reader.HasRows)
                 {
                     reader.Close();
-                    reader = command.ExecuteReader();
-                    reader.Read();
-                    reader.Close();
+                    command.ExecuteNonQuery();
                     connection.Close();
                     return Request.CreateResponse(HttpStatusCode.OK, "Delete successful");
                 }
@@ -195,7 +211,5 @@ namespace Business.WebApi.Controllers
                 }
             }
         }
-
-
     }
 }
