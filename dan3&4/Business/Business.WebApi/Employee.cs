@@ -8,10 +8,9 @@ namespace Business.WebApi
 {
     public class Employee
     {
-        [Required(ErrorMessage = "First name is required!")]
         private string firstName;
 
-        [Required(ErrorMessage = "Last name is required!")]
+
         private string lastName;
 
         private Guid id;
@@ -23,7 +22,15 @@ namespace Business.WebApi
             this.firstName = firstName;
             this.lastName = lastName;
         }
+        public Employee(string firstName, string lastName)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+        [Required(ErrorMessage = "First name is required!")]
+
         public string FirstName { get { return firstName; } set { firstName = value;} }
+        [Required(ErrorMessage = "Last name is required!")]
         public string LastName { get { return lastName; } set { lastName = value;} }
         public Guid Id { get { return id; } set { id = value; } }
 

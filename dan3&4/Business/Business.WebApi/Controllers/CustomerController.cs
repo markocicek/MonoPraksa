@@ -74,23 +74,23 @@ namespace Business.WebApi.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody] Customer customer)
         {
-            string commandText = "INSERT INTO Customer VALUES (default, @FirstName, @LastName, @EmployeeId);";
-            if (customer.FirstName == null || customer.LastName == null || customer.EmployeeId == null)
+            if (ModelState.IsValid)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "First name, last name and/or employeeid missing");
-            }
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(commandText, connection);
-                command.Parameters.AddWithValue("@FirstName", customer.FirstName);
-                command.Parameters.AddWithValue("@LastName", customer.LastName);
-                command.Parameters.AddWithValue("@EmployeeId", customer.EmployeeId);
-                connection.Open();
+                string commandText = "INSERT INTO Customer VALUES (default, @FirstName, @LastName, @EmployeeId);";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(commandText, connection);
+                    command.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                    command.Parameters.AddWithValue("@LastName", customer.LastName);
+                    command.Parameters.AddWithValue("@EmployeeId", customer.EmployeeId);
+                    connection.Open();
 
-                command.ExecuteNonQuery();
-                connection.Close();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
             }
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "First name, last name and/or employeeid missing");
         }
 
         [HttpPut]

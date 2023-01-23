@@ -126,22 +126,21 @@ namespace Business.WebApi.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody] Employee employee)
         {
-
-            if (employee.FirstName == null || employee.LastName == null)
+            if (ModelState.IsValid)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Check first and last name");
+                string commandText = "INSERT INTO Employee VALUES (default, @FirstName, @LastName);";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(commandText, connection);
+                    command.Parameters.AddWithValue("@FirstName", employee.FirstName);
+                    command.Parameters.AddWithValue("@LastName", employee.LastName);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
             }
-            string commandText = "INSERT INTO Employee VALUES (default, @FirstName, @LastName);";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(commandText, connection);
-                command.Parameters.AddWithValue("@FirstName", employee.FirstName);
-                command.Parameters.AddWithValue("@LastName", employee.LastName);
-                connection.Open();
-                command.ExecuteNonQuery();
-                connection.Close();
-            }
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Check first and last name");
         }
 
         [HttpPut]
