@@ -132,36 +132,14 @@ namespace Business.Repository
         }
         public async Task<bool> UpdateEmployeeAsync(Guid id, Employee updatedEmployee)
         {
-            StringBuilder commandTextBuilder = new StringBuilder("UPDATE Employee SET", 400);
             DateTime defaultDateTime = new DateTime();
-            if(updatedEmployee.FirstName != null)
-            {
-                commandTextBuilder.AppendFormat(" FirstName = @FirstName");
-                if (updatedEmployee.LastName != null || updatedEmployee.DateOfBirth != null)
-                {
-                    commandTextBuilder.AppendFormat(",");
-                }
-            }
-            if(updatedEmployee.LastName != null)
-            {
-                commandTextBuilder.AppendFormat(" LastName = @LastName");
-                if(updatedEmployee.DateOfBirth != defaultDateTime)
-                {
-                    commandTextBuilder.AppendFormat(",");
-                }
-            }
-            if(updatedEmployee.DateOfBirth != defaultDateTime)
-            {
-                commandTextBuilder.AppendFormat(" DateOfBirth = @DateOfBirth");
-            }
-            commandTextBuilder.AppendFormat(" WHERE Id = @Id;");
-
-            string commandText = commandTextBuilder.ToString();
+            string commandText = BuildUpdateQuery(updatedEmployee);
             string checkText = "SELECT * FROM Employee WHERE Id = @Id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);
                 SqlCommand check = new SqlCommand(checkText, connection);
+
                 if(updatedEmployee.FirstName != null)
                 {
                     command.Parameters.AddWithValue("@FirstName", updatedEmployee.FirstName);
@@ -218,6 +196,34 @@ namespace Business.Repository
                     return false;
                 }
             }
+        }
+
+        private string BuildUpdateQuery(Employee employee)
+        {
+            DateTime defaultDateTime = new DateTime();
+            StringBuilder commandTextBuilder = new StringBuilder("UPDATE Employee SET", 400);
+            if (employee.FirstName != null)
+            {
+                commandTextBuilder.AppendFormat(" FirstName = @FirstName");
+                if (employee.LastName != null || employee.DateOfBirth != null)
+                {
+                    commandTextBuilder.AppendFormat(",");
+                }
+            }
+            if (employee.LastName != null)
+            {
+                commandTextBuilder.AppendFormat(" LastName = @LastName");
+                if (employee.DateOfBirth != defaultDateTime)
+                {
+                    commandTextBuilder.AppendFormat(",");
+                }
+            }
+            if (employee.DateOfBirth != defaultDateTime)
+            {
+                commandTextBuilder.AppendFormat(" DateOfBirth = @DateOfBirth");
+            }
+            commandTextBuilder.AppendFormat(" WHERE Id = @Id;");
+            return commandTextBuilder.ToString();
         }
     }
 }
