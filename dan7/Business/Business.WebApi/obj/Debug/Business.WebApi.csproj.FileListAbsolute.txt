@@ -479,3 +479,9 @@ C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\System.Threading.Tasks.Extensions.xml
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\System.Web.Http.SelfHost.xml
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\Autofac.Extensions.DependencyInjection.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\Business.Repository.dll.config
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\Business.Service.dll.config
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\Autofac.Extensions.DependencyInjection.xml
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan7\Business\Business.WebApi\bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml

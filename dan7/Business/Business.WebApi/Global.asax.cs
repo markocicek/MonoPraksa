@@ -4,6 +4,7 @@ using Business.Repository;
 using Business.Repository.Common;
 using Business.Service;
 using Business.Service.Common;
+using Business.WebApi.App_Start;
 using Business.WebApi.Controllers;
 using System;
 using System.Collections.Generic;
@@ -20,16 +21,7 @@ namespace Business.WebApi
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-
-            var builder = new ContainerBuilder();
-            var config = GlobalConfiguration.Configuration;
-            builder.RegisterType<CustomerService>().As<ICustomerService>();
-            builder.RegisterType<EmployeeService>().As<IEmployeeService>();
-            builder.RegisterType<CustomerRepository>().As<ICustomerRepository>();
-            builder.RegisterType<EmployeeRepository>().As<IEmployeeRepository>();
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            var container = builder.Build();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            AutofacConfig.StartAutofac();
         }
     }
 }
