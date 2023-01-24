@@ -1,5 +1,5 @@
-﻿using Autofac; //
-using Autofac.Integration.WebApi; //
+﻿using Autofac;
+using Autofac.Integration.WebApi;
 using Business.Repository;
 using Business.Repository.Common;
 using Business.Service;
@@ -30,7 +30,6 @@ namespace Business.WebApi
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-
         }
     }
 }
