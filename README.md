@@ -33,3 +33,6 @@ Common
 
 dan6 - Async
 Pretvaranje metoda u asinkrone metode
+
+dan7 - Dependency Injection
+Dodavanje DI-a u sve layere
