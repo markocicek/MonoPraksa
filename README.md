@@ -13,8 +13,8 @@ CRUD methods
 Postman sending requests  
 DataAnnotations ([FromBody],[HttpPost] etc.)
 
-dan3&4 - Spajanje s bazom -  Ado.Net 
-https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/dataadapters-and-datareaders , 
+dan3&4 - Spajanje s bazom -  Ado.Net  
+https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/dataadapters-and-datareaders   
 https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/populating-a-dataset-from-a-dataadapter   
 https://www.c-sharpcorner.com/UploadFile/18fc30/understanding-the-basics-of-ado-net/   
 DB relations  
