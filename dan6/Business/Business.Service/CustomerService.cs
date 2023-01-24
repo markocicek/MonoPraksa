@@ -20,10 +20,10 @@ namespace Business.Service
         {
             return await customerRepository.FindCustomerAsync(id);
         }
-        public async void AddCustomerAsync(Customer customer)
+        public async Task AddCustomerAsync(Customer customer)
         {
             Guid id = Guid.NewGuid();
-            customerRepository.AddCustomerAsync(id, customer);
+            await customerRepository.AddCustomerAsync(id, customer);
         }
         public async Task<bool> UpdateCustomerAsync(Guid id, Customer updatedCustomer)
         {
