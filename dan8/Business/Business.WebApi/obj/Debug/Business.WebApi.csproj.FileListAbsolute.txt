@@ -610,3 +610,6 @@ C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan8\Business\Business
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan8\Business\Business.WebApi\obj\Debug\Business.WebApi.csproj.CopyComplete
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan8\Business\Business.WebApi\obj\Debug\Business.WebApi.dll
 C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan8\Business\Business.WebApi\obj\Debug\Business.WebApi.pdb
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan8\Business\Business.WebApi\bin\System.Web.Cors.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan8\Business\Business.WebApi\bin\System.Web.Http.Cors.dll
+C:\Users\Quadr\OneDrive\Radna površina\praksa\MonoPraksa\dan8\Business\Business.WebApi\bin\System.Web.Http.Cors.xml

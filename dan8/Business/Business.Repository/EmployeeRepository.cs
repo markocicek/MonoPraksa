@@ -179,11 +179,11 @@ namespace Business.Repository
                 SqlCommand command = new SqlCommand(commandText, connection);
                 SqlCommand check = new SqlCommand(checkText, connection);
 
-                if(updatedEmployee.FirstName != null)
+                if(updatedEmployee.FirstName != null && updatedEmployee.FirstName != "")
                 {
                     command.Parameters.AddWithValue("@FirstName", updatedEmployee.FirstName);
                 }
-                if(updatedEmployee.LastName != null)
+                if(updatedEmployee.LastName != null && updatedEmployee.LastName != "")
                 {
                     command.Parameters.AddWithValue("@LastName", updatedEmployee.LastName);
                 }
@@ -241,7 +241,7 @@ namespace Business.Repository
         {
             DateTime defaultDateTime = new DateTime();
             StringBuilder commandTextBuilder = new StringBuilder("UPDATE Employee SET", 400);
-            if (employee.FirstName != null)
+            if (employee.FirstName != null && employee.FirstName != "")
             {
                 commandTextBuilder.AppendFormat(" FirstName = @FirstName");
                 if (employee.LastName != null || employee.DateOfBirth != null)
@@ -249,7 +249,7 @@ namespace Business.Repository
                     commandTextBuilder.AppendFormat(",");
                 }
             }
-            if (employee.LastName != null)
+            if (employee.LastName != null && employee.LastName != "" )
             {
                 commandTextBuilder.AppendFormat(" LastName = @LastName");
                 if (employee.DateOfBirth != defaultDateTime)
